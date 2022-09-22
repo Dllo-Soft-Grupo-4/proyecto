@@ -34,11 +34,12 @@ public class ControladorEmpresa {
 //    public Empresa actualizar(@RequestBody Empresa empresa){
 //        return emp.actualizarEmpresas(empresa);
 //    }
-
-//    @DeleteMapping("/{nit}")
-//    public void eliminarPorNit(@PathVariable("nit") Empresa empresa){
-//        emp.eliminarEmpresasporId(empresa.getNit());
-//    }
+//
+    @DeleteMapping("Empresa/eliminar/{nit}")
+    public void eliminarPorNit(@PathVariable("nit") Empresa empresa){
+        emp.eliminarEmpresasporId(empresa.getNit());
+        return ("redirect:/Empresa");
+}
 
 //    @PatchMapping("/{nit}")
 //    public Empresa actualizarPorNit(@PathVariable("nit") Integer nit, @RequestBody Map<Object, Object> objectMap){
@@ -65,11 +66,19 @@ public class ControladorEmpresa {
         return "frmnuevaempresa";
     }
     // controlador para actualizar la tabla con la empresa creada
-    @PostMapping("Empresa/guardar")
-        public String insertar(Empresa empresa){
-        emp.guardarEmpresas(empresa);
-        return "redirect:/Empresa";
+
+    @GetMapping("/Empresa/actualizar/{Id}")
+    public String formularioActualizar (@PathVariable("Id")String dato, modelo){
+        Empresa empresa=emp.consultarEmpresaPorId();
+        modelo.addAtribute("empresa/actualizar",Empresa);
+        return "frmactualizarempresa";
     }
 
 
+    @PostMapping("Empresa/actualizar")
+    public String actualizar(Empresa empresa) {
+        emp.actualizarEmpresas(empresa);
+        return "redirect:/Empresa";
+
+    }
 }
